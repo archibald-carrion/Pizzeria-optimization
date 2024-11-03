@@ -141,7 +141,7 @@ def plot_comprehensive_analysis(daily_analysis):
         showlegend=True,
         title_text="Pizza Business Analysis Dashboard",
         title_x=0.5,
-        template="plotly_dark" # add dark mode to the page
+        template="plotly_white" # for more themes check https://plotly.com/python/templates/
     )
 
     # Update axes labels
