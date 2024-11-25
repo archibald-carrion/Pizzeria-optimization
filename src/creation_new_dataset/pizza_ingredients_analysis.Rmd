@@ -51,3 +51,22 @@ pizza_data <- read_excel(file_path)
 # Display the first few rows of the dataset
 head(pizza_data)
 ```
+
+### Extract and List Unique Ingredients
+```{r extract-ingredients}
+# Extract the 'pizza_ingredients' column and split the ingredients
+ingredients_list <- pizza_data %>%
+  pull(pizza_ingredients) %>%  # Extract the column
+  str_split(", ") %>%          # Split by ", "
+  unlist()                     # Flatten the list into a vector
+
+# Get unique ingredients
+unique_ingredients <- unique(ingredients_list) %>%
+  sort()  # Sort alphabetically
+
+# Display the number of unique ingredients
+cat("Total unique ingredients:", length(unique_ingredients), "\n")
+
+# Print the list of unique ingredients
+unique_ingredients
+```
