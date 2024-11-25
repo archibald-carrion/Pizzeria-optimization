@@ -1,0 +1,53 @@
+Certainly! Below is an example of an RMarkdown file that reads the `pizza_ingredients` column from the *Data Model - Pizza Sales.xlsx* file, extracts all unique ingredients, and lists them.
+
+```r
+---
+title: "Unique Pizza Ingredients"
+author: "Your Name"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+Setup chunk
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Extracting Unique Ingredients
+
+We will read the dataset and list all the unique ingredients from the `pizza_ingredients` column.
+
+### Load Required Libraries
+```{r libraries}
+# List of required packages
+required_packages <- c("readxl", "dplyr", "stringr", "tidyr")
+
+# Function to check and install missing packages
+install_if_missing <- function(packages) {
+  missing_packages <-
+    packages[!(packages %in% installed.packages()[, "Package"])]
+  if (length(missing_packages) > 0) {
+    install.packages(missing_packages)
+  }
+}
+
+# Install missing packages
+install_if_missing(required_packages)
+library(readxl)   # To read Excel files
+library(dplyr)    # For data manipulation
+library(stringr)  # For string operations
+library(tidyr)    # For data tidying
+```
+
+### Read the Dataset
+```{r read-data}
+# Specify the file path
+file_path <- "src/creation_new_dataset/pizza_sales.xlsx"
+
+# Read the dataset
+pizza_data <- read_excel(file_path)
+
+# Display the first few rows of the dataset
+head(pizza_data)
+```
