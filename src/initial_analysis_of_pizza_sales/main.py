@@ -210,6 +210,6 @@ def main(file_path):
 
 
 if __name__ == "__main__":
-    file_path = "Data Model - Pizza Sales.xlsx"
+    file_path = "src\data\Data Model - Pizza Sales.xlsx"
     main(file_path)
     
