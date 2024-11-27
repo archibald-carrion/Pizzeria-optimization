@@ -1,0 +1,62 @@
+CAJAS:
+Pizza pequeña -> Precio por caja = 130.6
+Pizza mediana -> Precio por caja = 265.8
+Pizza grande -> Precio por caja = 402.6
+
+SERVILLETAS: 
+7000 servilletas: ₡52170
+52170/7000: 7.45
+Suponiendo 4 servilletas por pizza:
+4* 7.45 = 29.81xpizza
+
+PRODUCTOS DE LIMPIEZA: 
+Cálculo de ₡10000 semanales
+10000/7 = 1428.57 por día
+140 pizza/dia
+1428.57/140 = 10.20
+
+GAS:
+6914 colones/día
+140 pizza/dia
+(6914 colones/día / 140 pizza/dia) = 49.38 colones/pizza
+
+SALARIO:
+Salario mínimo para pizzeros: ¢13.448,72 por jornada
+140 pizza/día
+13448,72/140 = 96.06 salario/pizza
+
+ALQUILER:
+₡1 012 782 mensuales
+1 012 782 / 30 días = ₡33759.4 alquiler/dia
+140 pizza/dia
+33759.4 alquiler/dia / 140 pizza/dia = ₡241.14 alquiler/pizza
+
+MASA:
+₡2360 = 907g
+2.60 colones/gramo
+Pizza pequeña ->  225 gramos/pizza
+Pizza mediana -> 350 gramos/pizza
+Pizza grande ->  550 gramos/pizza
+
+Pizza pequeña ->  225 * 2.60 = ₡585 masa/pizza
+Pizza mediana -> 350 * 2.60 = ₡910 masa/pizza
+Pizza grande ->  550 * 2.60 = ₡1430 masa/pizza
+
+AGUA:
+2m³/dia
+5517 colones/m³
+5517 * 2 = 11034
+140 pizza/dia
+11034/140 = ₡78.81 agua/pizza
+
+LUZ:
+1 kWh/congelador
+2 congeladores
+0.04 kWh/bombillo
+2 bombillos
+122.96 colones/kWh
+(2*1 + 2*0.04) *122.96 = ₡255.75 luz/dia
+140 pizza/dia
+255.75/140 = ₡1.83 luz/pizza
+luz 
+
