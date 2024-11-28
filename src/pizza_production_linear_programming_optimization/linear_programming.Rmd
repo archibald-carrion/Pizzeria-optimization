@@ -1,0 +1,115 @@
+---
+title: "Pizza Production Linear Programming Optimization"
+author: "Business Analyst"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    toc: true
+  html_document:
+    toc: true
+    toc_float: true
+---
+```{r setup, include=FALSE}
+# Function to check and install libraries
+install_if_missing <- function(packages) {
+  for (package in packages) {
+    if (!requireNamespace(package, quietly = TRUE)) {
+      cat(paste("Installing package:", package, "\n"))
+      install.packages(package, dependencies = TRUE)
+    }
+  }
+}
+
+# List of required packages
+required_packages <- c(
+  "lpSolve",     # Linear programming solver
+  "readxl",      # For reading Excel files
+  "dplyr",       # For data manipulation
+  "tidyr",       # For data reshaping
+  "knitr",       # For creating tables
+  "ggplot2"      # For visualization
+)
+
+# Check and install missing packages
+install_if_missing(required_packages)
+
+# Load libraries
+library(lpSolve)
+library(readxl)
+library(dplyr)
+library(tidyr)
+library(knitr)
+library(ggplot2)
+
+# Set knitr options
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+```{r data-import-and-preprocessing}
+# Read pizza sales data
+pizza_sales <- read_excel("src/pizza_production_linear_programming_optimization/pizza_sales.xlsx")
+
+# Read total costs data
+total_costs <- read_csv("src/pizza_production_linear_programming_optimization/total_costs.csv")
+
+
+# Calculate daily sales with explicit column names
+daily_sales <- pizza_sales %>%
+  group_by(order_date, pizza_name, pizza_size) %>%
+  summarise(
+    daily_sales_amount = sum(daily_quantity),  # Adjust column name based on actual column
+    .groups = "drop"
+  )
+
+# Calculate minimum and maximum historic sales for each pizza type and size
+historic_sales_summary <- daily_sales %>%
+  group_by(pizza_name, pizza_size) %>%
+  summarise(
+    min_historic_sales = min(daily_sales_amount),
+    max_historic_sales = max(daily_sales_amount),
+    .groups = "drop"
+  )
+
+# View the results
+print(historic_sales_summary)
+
+# Print the summary to verify
+print(historic_sales_summary)
+
+```
+
+
+
+
+
+
+
+
+
+### Optimization Function
+
+```{r pizza-optimization-function}
+
+# 1. cannot exceed 200 pizza daily (cannot physically produce more, and for storage reason)
+# 2. pizza have between 40% and 60% markup on cost
+# 3. we want to maximize profit
+# 4. we want to know how many of each type of pizza to produce each day to maximize profit
+# 5. this way we can optimize the amount of ingredients to buy and the production process
+# 6. pizza quantity must be integer
+# 7. pizza quantity must be positive
+```
+
+x=pizza grande jamon y queso 10
+y=pizza grande pepperoni 11
+z=pizza pequeña jamon y queso 6
+a=pizza pequeña pepperoni 7
+
+x10+y11+z6+a7=g
+
+x+y+z+a<=200
+
+10 < x < 32
+8 < y < 26
+2 < z < 54
+0 < a < 50
+

@@ -1,6 +1,6 @@
 ---
 title: "Pizza Ingredients and Cost Analysis"
-author: "Pizza Analytics Team"
+author: "Los optimizados"
 date: "`r Sys.Date()`"
 output: 
   html_document:
@@ -13,9 +13,9 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-  echo = TRUE,      # Show code blocks
-  warning = FALSE,  # Hide warnings
-  message = FALSE   # Hide messages
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE
 )
 ```
 
@@ -24,25 +24,25 @@ knitr::opts_chunk$set(
 ```{r libraries}
 # List of required packages
 required_packages <- c(
-  "readxl",     # For reading Excel files
-  "readr",      # For reading CSV files
-  "dplyr",      # For data manipulation
-  "stringr",    # For string operations
-  "tidyr",      # For data tidying
-  "knitr",      # For creating tables
-  "ggplot2"     # For visualization
+  "readxl",
+  "readr",
+  "dplyr",
+  "stringr",
+  "tidyr",
+  "knitr",
+  "ggplot2"
 )
 
 # Function to check and install missing packages
 install_if_missing <- function(packages) {
-  missing_packages <- 
+  missing_packages <-
     packages[!(packages %in% installed.packages()[, "Package"])]
   if (length(missing_packages) > 0) {
     install.packages(missing_packages, repos = "http://cran.us.r-project.org")
   }
 }
 
-# Install missing packages
+
 install_if_missing(required_packages)
 
 # Load libraries
@@ -58,40 +58,33 @@ library(ggplot2)
 ### Read Pizza Sales Data
 
 ```{r read-pizza-sales}
-# Specify the file path for pizza sales data
 sales_file_path <- "src/creation_new_dataset/pizza_sales.xlsx"
 
-# Read the dataset
 pizza_sales <- read_excel(sales_file_path)
 
-# Display the first few rows of the dataset
 kable(head(pizza_sales), caption = "First few rows of Pizza Sales Data")
 ```
 
 ### Read Ingredient Costs
 
 ```{r read-ingredient-costs}
-# Read the ingredient costs CSV
 ingredient_costs <- read_csv("src/creation_new_dataset/ingredient_costs.csv")
 
-# Display the first few rows of ingredient costs
 kable(head(ingredient_costs), caption = "First few rows of Ingredient Costs")
 ```
 
 ### Extract and Analyze Unique Ingredients
 
 ```{r extract-ingredients}
-# Extract the 'pizza_ingredients' column and split the ingredients
 ingredients_list <- pizza_sales %>%
   pull(pizza_ingredients) %>%  # Extract the column
   str_split(", ") %>%          # Split by ", "
   unlist()                     # Flatten the list into a vector
 
-# Get unique ingredients
+# obtain unique ingredients and sort them (later not necessary but good for readability)
 unique_ingredients <- unique(ingredients_list) %>%
-  sort()  # Sort alphabetically
+  sort()
 
-# Print summary of unique ingredients
 cat("Total unique ingredients:", length(unique_ingredients), "\n")
 ```
 
@@ -102,16 +95,14 @@ cat("Total unique ingredients:", length(unique_ingredients), "\n")
 calculate_pizza_cost <- function(ingredients_str, cost_df) {
   # Split ingredients string into a vector
   ingredients <- str_split(ingredients_str, ", ")[[1]]
-  
-  # Match ingredients with cost data
+
   ingredient_costs <- cost_df %>%
     filter(Ingredient %in% ingredients)
-  
-  # Calculate cost for different pizza sizes
+
   small_cost <- sum(ingredient_costs$`Price S Pizza ($)`)
   medium_cost <- sum(ingredient_costs$`Price M Pizza ($)`)
   large_cost <- sum(ingredient_costs$`Price L Pizza ($)`)
-  
+
   return(data.frame(
     small_cost = small_cost,
     medium_cost = medium_cost,
@@ -119,7 +110,6 @@ calculate_pizza_cost <- function(ingredients_str, cost_df) {
   ))
 }
 
-# Apply the function to each pizza in the sales data
 pizza_ingredient_costs <- pizza_sales %>%
   rowwise() %>%
   mutate(
@@ -127,7 +117,6 @@ pizza_ingredient_costs <- pizza_sales %>%
   ) %>%
   unnest_wider(costs)
 
-# Display summary of ingredient costs
 summary_ingredient_costs <- pizza_ingredient_costs %>%
   group_by(pizza_name) %>%
   summarise(
@@ -136,7 +125,7 @@ summary_ingredient_costs <- pizza_ingredient_costs %>%
     avg_large_cost = mean(large_cost)
   )
 
-kable(summary_ingredient_costs, 
+kable(summary_ingredient_costs,
       caption = "Average Ingredient Costs by Pizza Type and Size",
       digits = 2)
 ```
@@ -144,7 +133,7 @@ kable(summary_ingredient_costs,
 ### Top Ingredients Across Pizzas
 
 ```{r top-ingredients}
-# Count ingredient frequency
+# has no practicla use tbh, but good for presentation and finding out what to buy in bulk
 ingredient_frequency <- ingredients_list %>%
   table() %>%
   as.data.frame() %>%
@@ -152,27 +141,6 @@ ingredient_frequency <- ingredients_list %>%
   arrange(desc(Freq)) %>%
   head(15)
 
-kable(ingredient_frequency, 
+kable(ingredient_frequency,
       caption = "Top 15 Most Frequently Used Ingredients")
 ```
-
-## Conclusion
-
-This analysis provides insights into pizza ingredients, their costs, and distribution across different pizza types. We've examined ingredient diversity, cost variations by pizza size, and the most common and expensive ingredients.
-
-```
-
-I've created a comprehensive RMarkdown script that:
-1. Reads pizza sales data from an Excel file
-2. Reads ingredient costs from the CSV we created
-3. Extracts and lists unique ingredients
-4. Calculates ingredient costs for each pizza
-5. Provides visualizations and summary statistics
-
-A few notes:
-- The script assumes specific file paths (you'll need to adjust them)
-- It includes error handling for package installation
-- Provides multiple views of the data: tables, summaries, and a boxplot
-- Analyzes ingredient frequency and cost
-
-Would you like me to modify or explain any part of the script?

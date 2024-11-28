@@ -1,9 +1,7 @@
-Certainly! Below is an example of an RMarkdown file that reads the `pizza_ingredients` column from the *Data Model - Pizza Sales.xlsx* file, extracts all unique ingredients, and lists them.
-
 ```r
 ---
 title: "Unique Pizza Ingredients"
-author: "Your Name"
+author: "Los optimizados"
 date: "`r Sys.Date()`"
 output: html_document
 ---
@@ -16,14 +14,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Extracting Unique Ingredients
 
-We will read the dataset and list all the unique ingredients from the `pizza_ingredients` column.
+Read the dataset and list all the unique ingredients from the `pizza_ingredients` column.
 
 ### Load Required Libraries
 ```{r libraries}
-# List of required packages
 required_packages <- c("readxl", "dplyr", "stringr", "tidyr")
 
-# Function to check and install missing packages
 install_if_missing <- function(packages) {
   missing_packages <-
     packages[!(packages %in% installed.packages()[, "Package"])]
@@ -32,41 +28,33 @@ install_if_missing <- function(packages) {
   }
 }
 
-# Install missing packages
 install_if_missing(required_packages)
-library(readxl)   # To read Excel files
-library(dplyr)    # For data manipulation
-library(stringr)  # For string operations
-library(tidyr)    # For data tidying
+library(readxl)
+library(dplyr)
+library(stringr)
+library(tidyr)
 ```
 
 ### Read the Dataset
 ```{r read-data}
-# Specify the file path
 file_path <- "src/creation_new_dataset/pizza_sales.xlsx"
 
-# Read the dataset
 pizza_data <- read_excel(file_path)
 
-# Display the first few rows of the dataset
 head(pizza_data)
 ```
 
 ### Extract and List Unique Ingredients
 ```{r extract-ingredients}
-# Extract the 'pizza_ingredients' column and split the ingredients
 ingredients_list <- pizza_data %>%
-  pull(pizza_ingredients) %>%  # Extract the column
-  str_split(", ") %>%          # Split by ", "
-  unlist()                     # Flatten the list into a vector
+  pull(pizza_ingredients) %>%
+  str_split(", ") %>%
+  unlist()
 
-# Get unique ingredients
 unique_ingredients <- unique(ingredients_list) %>%
-  sort()  # Sort alphabetically
+  sort()
 
-# Display the number of unique ingredients
 cat("Total unique ingredients:", length(unique_ingredients), "\n")
 
-# Print the list of unique ingredients
 unique_ingredients
 ```
