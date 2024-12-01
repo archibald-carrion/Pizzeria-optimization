@@ -55,8 +55,61 @@ Modelaremos la producción de pizzas como un sistema de colas para analizar la e
 * Punto de saturación del sistema
 * Analizar posibles mejoras en el proceso tomando en cuenta los costos asociados (agregar más chefs, hornos, etc.)
 
-
+## Dependencias del programa
+* [queueing](https://www.rdocumentation.org/packages/queueing/versions/0.2.12)
 
 ```{r}
+# Check if required packages are installed and install if not
+if (!require("queueing")) {
+  install.packages("queueing")
+}
 
+if (!require("ggplot2")) {
+  install.packages("ggplot2")
+}
+
+if (!require("dplyr")) {
+  install.packages("dplyr")
+}
+
+# Load required libraries
+library(queueing)
+library(ggplot2)
+library(dplyr)
+
+# Set seed for reproducibility
+set.seed(506)
+```
+
+## Definición de Parámetros
+```{r}
+lambda <- 20  # Llegadas de pedidos por hora, dato hipotético
+# TODO: ver cual dato real usar o como obtenerlo
+
+mu_chef <- 10   # pizzas per hour for each chef
+mu_oven <- 96   # pizzas per hour for the oven
+
+# metadatos del sistema
+num_chefs <- 2  # cantidad de chefs
+system_capacity <- 50  # antidad máxima de pedidos en el sistema
+
+total_hours <- 16  # total de horas por día
+# TODO: verificar cuantos chefs trabajan en el turno de 16 horas
+# suponemos 4 chefs (2 turnos de 8 horas)
+```
+
+## Cálculo del ocio y utilización de los chefs y del horno
+
+```{r utilization-calculation}
+utilization_chefs <- lambda / (num_chefs * mu_chef)
+utilization_oven <- lambda / mu_oven
+
+idle_chefs <- 1 - utilization_chefs
+idle_oven <- 1 - utilization_oven
+
+# Mostrar los resultados
+cat("Utilización de los chefs:", utilization_chefs, "\n")
+cat("Ocio de los chefs:", idle_chefs, "\n")
+cat("Utilización del horno:", utilization_oven, "\n")
+cat("Ocio del horno:", idle_oven, "\n")
 ```
