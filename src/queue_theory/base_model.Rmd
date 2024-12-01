@@ -1,0 +1,62 @@
+---
+title: "Base model for queue theory"
+author: "Optimizados - Markov's Pizza" 
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+## Descripción del Modelo Base
+
+Markov's Pizza opera durante 16 horas diarias (desde las 12:00 PM hasta las 4:00 AM) con dos chefs trabajando simultáneamente para preparar pizzas para los clientes.
+Modelaremos la producción de pizzas como un sistema de colas para analizar la eficiencia y posibles cuellos de botella en el proceso de elaboración de pizzas.
+
+### Características del Modelo de Colas
+
+* **Tipo de Modelo:** Este escenario se ajusta a un Modelo de Cola Multi-Servidor (Cola M/M/2)
+* **M (Llegada):** Distribución exponencial (Poisson) de las llegadas de los clientes
+* **M (Servicio):** Distribución exponencial de los tiempos de preparación de las pizzas
+* **2 (Servidores):** Dos chefs trabajando simultáneamente
+
+### Parámetros Clave a Considerar
+
+* **Tasa de Llegada (λ):** Número promedio de pedidos de pizza por unidad de tiempo
+* **Tasa de Servicio (μ):** Número promedio de pizzas que un solo chef puede preparar por unidad de tiempo, también tomando en cuenta el horno compartido entre los chefs
+* **Capacidad del Sistema:** Número máximo de pedidos que pueden estar en el sistema (en cola y siendo preparados)
+* **Disciplina de Cola:** Primero en Llegar, Primero en Ser Atendido (FCFS)
+
+## Especificaciones del [Horno](https://www.fornobravo.com/blog/pizza-oven-size-and-throughput/?srsltid=AfmBOoqfVlB2eAthD4uKjHwTodRZLnPDwe0G9wiqSP5PmHmjBb7xyqpp)
+
+* Tamaño del horno: 56" horno comercial
+* Capacidad: 10 pizzas simultáneamente
+* Rendimiento teórico: 12 pizzas por posición por hora (5min por pizza)
+* Rendimiento teórico total: 120 pizzas por hora
+* Tiempo de horneado: 5 minutos por pizza
+
+## Cálculo de la Tasa de Servicio del Chef y del Horno
+
+* Tasa de preparación del chef:
+  * Supongamos que cada chef tarda entre 5 y 7 minutos en preparar una pizza.
+  * Promedio de 6 minutos por pizza.
+  * Tasa de preparación por chef: 10 pizzas por hora (60min / 6min)
+  * Tasa de preparación combinada de dos chefs: 20 pizzas por hora
+* Tasa de servicio del horno:
+  * Máximo teórico: 120 pizzas por hora
+  * Rendimiento práctico: Supongamos una eficiencia del 80% (tiempo de calentamiento, cambiar fuente de gaz, etc.)
+  * Tasa de servicio práctica del horno: 96 pizzas por hora
+
+
+## Análisis
+
+* Tiempo de espera promedio de un pedido
+* Probabilidad de espera
+* Ocio de los chefs
+* "Ocio" del horno
+* Longitud de la cola
+* Punto de saturación del sistema
+* Analizar posibles mejoras en el proceso tomando en cuenta los costos asociados (agregar más chefs, hornos, etc.)
+
+
+
+```{r}
+
+```

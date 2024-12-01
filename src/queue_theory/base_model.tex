@@ -1,0 +1,194 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Base model for queue theory},
+  pdfauthor={Optimizados - Markov's Pizza 🍕},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Base model for queue theory}
+\author{Optimizados - Markov's Pizza 🍕}
+\date{2024-12-01}
+
+\begin{document}
+\maketitle
+
+\subsection{Descripción del Modelo
+Base}\label{descripciuxf3n-del-modelo-base}
+
+Markov's Pizza opera durante 16 horas diarias (desde las 12:00 PM hasta
+las 4:00 AM) con dos chefs trabajando simultáneamente para preparar
+pizzas para los clientes. Modelaremos la producción de pizzas como un
+sistema de colas para analizar la eficiencia y posibles cuellos de
+botella en el proceso de elaboración de pizzas.
+
+\subsubsection{Características del Modelo de
+Colas}\label{caracteruxedsticas-del-modelo-de-colas}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Tipo de Modelo:} Este escenario se ajusta a un Modelo de Cola
+  Multi-Servidor (Cola M/M/2)
+\item
+  \textbf{M (Llegada):} Distribución exponencial (Poisson) de las
+  llegadas de los clientes
+\item
+  \textbf{M (Servicio):} Distribución exponencial de los tiempos de
+  preparación de las pizzas
+\item
+  \textbf{2 (Servidores):} Dos chefs trabajando simultáneamente
+\end{itemize}
+
+\subsubsection{Parámetros Clave a
+Considerar}\label{paruxe1metros-clave-a-considerar}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Tasa de Llegada (λ):} Número promedio de pedidos de pizza por
+  unidad de tiempo
+\item
+  \textbf{Tasa de Servicio (μ):} Número promedio de pizzas que un solo
+  chef puede preparar por unidad de tiempo, también tomando en cuenta el
+  horno compartido entre los chefs
+\item
+  \textbf{Capacidad del Sistema:} Número máximo de pedidos que pueden
+  estar en el sistema (en cola y siendo preparados)
+\item
+  \textbf{Disciplina de Cola:} Primero en Llegar, Primero en Ser
+  Atendido (FCFS)
+\end{itemize}
+
+\subsection{\texorpdfstring{Especificaciones del
+\href{https://www.fornobravo.com/blog/pizza-oven-size-and-throughput/?srsltid=AfmBOoqfVlB2eAthD4uKjHwTodRZLnPDwe0G9wiqSP5PmHmjBb7xyqpp}{Horno}}{Especificaciones del Horno}}\label{especificaciones-del-horno}
+
+\begin{itemize}
+\tightlist
+\item
+  Tamaño del horno: 56'' horno comercial
+\item
+  Capacidad: 10 pizzas simultáneamente
+\item
+  Rendimiento teórico: 12 pizzas por posición por hora (5min por pizza)
+\item
+  Rendimiento teórico total: 120 pizzas por hora
+\item
+  Tiempo de horneado: 5 minutos por pizza
+\end{itemize}
+
+\subsection{Cálculo de la Tasa de Servicio del Chef y del
+Horno}\label{cuxe1lculo-de-la-tasa-de-servicio-del-chef-y-del-horno}
+
+\begin{itemize}
+\tightlist
+\item
+  Tasa de preparación del chef:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Supongamos que cada chef tarda entre 5 y 7 minutos en preparar una
+    pizza.
+  \item
+    Promedio de 6 minutos por pizza.
+  \item
+    Tasa de preparación por chef: 10 pizzas por hora (60min / 6min)
+  \item
+    Tasa de preparación combinada de dos chefs: 20 pizzas por hora
+  \end{itemize}
+\item
+  Tasa de servicio del horno:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Máximo teórico: 120 pizzas por hora
+  \item
+    Rendimiento práctico: Supongamos una eficiencia del 80\% (tiempo de
+    calentamiento, cambiar fuente de gaz, etc.)
+  \item
+    Tasa de servicio práctica del horno: 96 pizzas por hora
+  \end{itemize}
+\end{itemize}
+
+\subsection{Análisis}\label{anuxe1lisis}
+
+\begin{itemize}
+\tightlist
+\item
+  Tiempo de espera promedio de un pedido
+\item
+  Probabilidad de espera
+\item
+  Ocio de los chefs
+\item
+  ``Ocio'' del horno
+\item
+  Longitud de la cola
+\item
+  Punto de saturación del sistema
+\item
+  Analizar posibles mejoras en el proceso tomando en cuenta los costos
+  asociados (agregar más chefs, hornos, etc.)
+\end{itemize}
+
+\end{document}
