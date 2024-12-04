@@ -37,6 +37,46 @@
 }{% if KOMA class
   \KOMAoptions{parskip=half}}
 \makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{graphicx}
 \makeatletter
 \newsavebox\pandoc@box
@@ -60,13 +100,13 @@
 \urlstyle{same}
 \hypersetup{
   pdftitle={Base model for queue theory},
-  pdfauthor={Optimizados - Markov's Pizza 🍕},
+  pdfauthor={Optimizados - Markov's Pizza},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
 \title{Base model for queue theory}
-\author{Optimizados - Markov's Pizza 🍕}
-\date{2024-12-01}
+\author{Optimizados - Markov's Pizza}
+\date{2024-12-04}
 
 \begin{document}
 \maketitle
@@ -190,5 +230,254 @@ Horno}\label{cuxe1lculo-de-la-tasa-de-servicio-del-chef-y-del-horno}
   Analizar posibles mejoras en el proceso tomando en cuenta los costos
   asociados (agregar más chefs, hornos, etc.)
 \end{itemize}
+
+\subsection{Dependencias del programa}\label{dependencias-del-programa}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://www.rdocumentation.org/packages/queueing/versions/0.2.12}{queueing}
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Check if required packages are installed and install if not}
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(}\StringTok{"queueing"}\NormalTok{)) \{}
+  \FunctionTok{install.packages}\NormalTok{(}\StringTok{"queueing"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: queueing
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)) \{}
+  \FunctionTok{install.packages}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: ggplot2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(}\StringTok{"dplyr"}\NormalTok{)) \{}
+  \FunctionTok{install.packages}\NormalTok{(}\StringTok{"dplyr"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: dplyr
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load required libraries}
+\FunctionTok{library}\NormalTok{(queueing)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+
+\CommentTok{\# Set seed for reproducibility}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{506}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Definición de
+Parámetros}\label{definiciuxf3n-de-paruxe1metros}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lambda }\OtherTok{\textless{}{-}} \DecValTok{20}  \CommentTok{\# Llegadas de pedidos por hora, dato hipotético}
+\CommentTok{\# }\AlertTok{TODO}\CommentTok{: ver cual dato real usar o como obtenerlo}
+
+\NormalTok{arrival\_rates }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{period =} \FunctionTok{c}\NormalTok{(}
+    \StringTok{"12{-}2 PM"}\NormalTok{,}
+    \StringTok{"2{-}4 PM"}\NormalTok{,}
+    \StringTok{"4{-}6 PM"}\NormalTok{,}
+    \StringTok{"6{-}8 PM"}\NormalTok{,}
+    \StringTok{"8{-}10 PM"}\NormalTok{,}
+    \StringTok{"10 PM{-}12 AM"}\NormalTok{,}
+    \StringTok{"12{-}2 AM"}\NormalTok{,}
+    \StringTok{"2{-}4 AM"}
+\NormalTok{  ),}
+  \AttributeTok{start\_hour =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{12}\NormalTok{, }\DecValTok{14}\NormalTok{),}
+  \AttributeTok{lambda =} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{25}\NormalTok{, }\DecValTok{35}\NormalTok{, }\DecValTok{50}\NormalTok{, }\DecValTok{40}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{15}\NormalTok{, }\DecValTok{5}\NormalTok{)}
+  \CommentTok{\# pizzas perhours, mas comsumo en la noche}
+\NormalTok{)}
+
+\NormalTok{mu\_chef }\OtherTok{\textless{}{-}} \DecValTok{10}   \CommentTok{\# pizzas per hour for each chef}
+\NormalTok{mu\_oven }\OtherTok{\textless{}{-}} \DecValTok{96}   \CommentTok{\# pizzas per hour for the oven}
+
+\CommentTok{\# metadatos del sistema}
+\NormalTok{num\_chefs }\OtherTok{\textless{}{-}} \DecValTok{2}  \CommentTok{\# cantidad de chefs}
+\NormalTok{system\_capacity }\OtherTok{\textless{}{-}} \DecValTok{50}  \CommentTok{\# antidad máxima de pedidos en el sistema}
+
+\NormalTok{total\_hours }\OtherTok{\textless{}{-}} \DecValTok{16}  \CommentTok{\# total de horas por día}
+\CommentTok{\# }\AlertTok{TODO}\CommentTok{: verificar cuantos chefs trabajan en el turno de 16 horas}
+\CommentTok{\# suponemos 4 chefs (2 turnos de 8 horas)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Cálculo del ocio y utilización de los chefs y del
+horno}\label{cuxe1lculo-del-ocio-y-utilizaciuxf3n-de-los-chefs-y-del-horno}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# calculate metrics given a specific lambda,}
+\CommentTok{\# usefull now that we have different arrival rates}
+\NormalTok{calculate\_metrics }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(lambda) \{}
+\NormalTok{  utilization\_chefs }\OtherTok{\textless{}{-}}\NormalTok{ lambda }\SpecialCharTok{/}\NormalTok{ (num\_chefs }\SpecialCharTok{*}\NormalTok{ mu\_chef)}
+\NormalTok{  utilization\_oven }\OtherTok{\textless{}{-}}\NormalTok{ lambda }\SpecialCharTok{/}\NormalTok{ mu\_oven}
+
+\NormalTok{  idle\_chefs }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ utilization\_chefs}
+\NormalTok{  idle\_oven }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ utilization\_oven}
+
+  \FunctionTok{list}\NormalTok{(}
+    \AttributeTok{lambda =}\NormalTok{ lambda,}
+    \AttributeTok{utilization\_chefs =}\NormalTok{ utilization\_chefs,}
+    \AttributeTok{utilization\_oven =}\NormalTok{ utilization\_oven,}
+    \AttributeTok{idle\_chefs =}\NormalTok{ idle\_chefs,}
+    \AttributeTok{idle\_oven =}\NormalTok{ idle\_oven}
+\NormalTok{  )}
+
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Cálculamos las métricas para cada arrival
+rate}\label{cuxe1lculamos-las-muxe9tricas-para-cada-arrival-rate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# calculate metrics for each arrival rate}
+\NormalTok{metrics }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(arrival\_rates}\SpecialCharTok{$}\NormalTok{lambda, calculate\_metrics)}
+
+\CommentTok{\# \# convert to data frame for plotting}
+\CommentTok{\# metrics\_df \textless{}{-} do.call(rbind, metrics)}
+\CommentTok{\# metrics\_df$period \textless{}{-} arrival\_rates$period}
+\CommentTok{\# metrics\_df$start\_hour \textless{}{-} arrival\_rates$start\_hour}
+\CommentTok{\# no need to add lambda again, it\textquotesingle{}s already in the data frame metrics}
+
+\NormalTok{metrics\_df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{period =}\NormalTok{ arrival\_rates}\SpecialCharTok{$}\NormalTok{period,}
+  \AttributeTok{start\_hour =}\NormalTok{ arrival\_rates}\SpecialCharTok{$}\NormalTok{start\_hour,}
+  \AttributeTok{lambda =}\NormalTok{ arrival\_rates}\SpecialCharTok{$}\NormalTok{lambda,}
+  \AttributeTok{utilization\_chefs =} \FunctionTok{sapply}\NormalTok{(metrics, }\StringTok{\textasciigrave{}}\AttributeTok{[[}\StringTok{\textasciigrave{}}\NormalTok{, }\StringTok{"utilization\_chefs"}\NormalTok{),}
+  \AttributeTok{utilization\_oven =} \FunctionTok{sapply}\NormalTok{(metrics, }\StringTok{\textasciigrave{}}\AttributeTok{[[}\StringTok{\textasciigrave{}}\NormalTok{, }\StringTok{"utilization\_oven"}\NormalTok{),}
+  \AttributeTok{idle\_chefs =} \FunctionTok{sapply}\NormalTok{(metrics, }\StringTok{\textasciigrave{}}\AttributeTok{[[}\StringTok{\textasciigrave{}}\NormalTok{, }\StringTok{"idle\_chefs"}\NormalTok{),}
+  \AttributeTok{idle\_oven =} \FunctionTok{sapply}\NormalTok{(metrics, }\StringTok{\textasciigrave{}}\AttributeTok{[[}\StringTok{\textasciigrave{}}\NormalTok{, }\StringTok{"idle\_oven"}\NormalTok{)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{visualizamos las métricas}\label{visualizamos-las-muxe9tricas}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Plot utilization metrics}
+\FunctionTok{ggplot}\NormalTok{(metrics\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ period)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ utilization\_chefs, }\AttributeTok{fill =} \StringTok{"Chefs"}\NormalTok{), }
+           \AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ utilization\_oven, }\AttributeTok{fill =} \StringTok{"Oven"}\NormalTok{), }
+           \AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"System Utilization Throughout the Day"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Time Period"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Utilization Rate"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"Chefs"} \OtherTok{=} \StringTok{"blue"}\NormalTok{, }\StringTok{"Oven"} \OtherTok{=} \StringTok{"red"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{base_model_files/figure-latex/unnamed-chunk-4-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# store the plot as image}
+\FunctionTok{ggsave}\NormalTok{(}\StringTok{"utilization\_metrics.png"}\NormalTok{, }\AttributeTok{width =} \DecValTok{10}\NormalTok{, }\AttributeTok{height =} \DecValTok{6}\NormalTok{, }\AttributeTok{dpi =} \DecValTok{300}\NormalTok{)}
+
+\CommentTok{\# Plot idle time metrics}
+\FunctionTok{ggplot}\NormalTok{(metrics\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ period)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ idle\_chefs, }\AttributeTok{fill =} \StringTok{"Chefs"}\NormalTok{), }
+           \AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ idle\_oven, }\AttributeTok{fill =} \StringTok{"Oven"}\NormalTok{), }
+           \AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Idle Time Throughout the Day"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Time Period"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Idle Rate"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"Chefs"} \OtherTok{=} \StringTok{"blue"}\NormalTok{, }\StringTok{"Oven"} \OtherTok{=} \StringTok{"red"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{base_model_files/figure-latex/unnamed-chunk-4-2.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# store the plots as images}
+\FunctionTok{ggsave}\NormalTok{(}\StringTok{"idle\_metrics.png"}\NormalTok{, }\AttributeTok{width =} \DecValTok{10}\NormalTok{, }\AttributeTok{height =} \DecValTok{6}\NormalTok{, }\AttributeTok{dpi =} \DecValTok{300}\NormalTok{)}
+
+\CommentTok{\# Print the metrics dataframe for additional insight}
+\FunctionTok{print}\NormalTok{(metrics\_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        period start_hour lambda utilization_chefs utilization_oven idle_chefs
+## 1     12-2 PM          0     10              0.50       0.10416667       0.50
+## 2      2-4 PM          2     25              1.25       0.26041667      -0.25
+## 3      4-6 PM          4     35              1.75       0.36458333      -0.75
+## 4      6-8 PM          6     50              2.50       0.52083333      -1.50
+## 5     8-10 PM          8     40              2.00       0.41666667      -1.00
+## 6 10 PM-12 AM         10     20              1.00       0.20833333       0.00
+## 7     12-2 AM         12     15              0.75       0.15625000       0.25
+## 8      2-4 AM         14      5              0.25       0.05208333       0.75
+##   idle_oven
+## 1 0.8958333
+## 2 0.7395833
+## 3 0.6354167
+## 4 0.4791667
+## 5 0.5833333
+## 6 0.7916667
+## 7 0.8437500
+## 8 0.9479167
+\end{verbatim}
+
+\subsection{Analisis de los resultados
+iniciales}\label{analisis-de-los-resultados-iniciales}
+
+Notamos que al tener 2 chefs trabajando simultáneamente, es suficiente
+para los segmentos del día de 10pm a 4am, pero entre 2pm a 10pm no son
+suficientes. el horno nunca sobrepasa el 50\% de utilización, por lo que
+no es un cuello de botella. Los datos teoricos encontrados presentan una
+venta de 200 pizzas por día, al estudiar nuestro sistema inical
+encontramos que es imposible llegar a esa cantidad con 2 chefs, para
+optimizar ganancias y costos se presentaran modelos alternativos para
+mejorar el sistema.
 
 \end{document}

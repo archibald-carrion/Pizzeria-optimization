@@ -86,6 +86,22 @@ set.seed(506)
 lambda <- 20  # Llegadas de pedidos por hora, dato hipotético
 # TODO: ver cual dato real usar o como obtenerlo
 
+arrival_rates <- data.frame(
+  period = c(
+    "12-2 PM",
+    "2-4 PM",
+    "4-6 PM",
+    "6-8 PM",
+    "8-10 PM",
+    "10 PM-12 AM",
+    "12-2 AM",
+    "2-4 AM"
+  ),
+  start_hour = c(0, 2, 4, 6, 8, 10, 12, 14),
+  lambda = c(10, 25, 35, 50, 40, 20, 15, 5)
+  # pizzas perhours, mas comsumo en la noche
+)
+
 mu_chef <- 10   # pizzas per hour for each chef
 mu_oven <- 96   # pizzas per hour for the oven
 
@@ -101,15 +117,90 @@ total_hours <- 16  # total de horas por día
 ## Cálculo del ocio y utilización de los chefs y del horno
 
 ```{r utilization-calculation}
-utilization_chefs <- lambda / (num_chefs * mu_chef)
-utilization_oven <- lambda / mu_oven
 
-idle_chefs <- 1 - utilization_chefs
-idle_oven <- 1 - utilization_oven
+# calculate metrics given a specific lambda,
+# usefull now that we have different arrival rates
+calculate_metrics <- function(lambda) {
+  utilization_chefs <- lambda / (num_chefs * mu_chef)
+  utilization_oven <- lambda / mu_oven
 
-# Mostrar los resultados
-cat("Utilización de los chefs:", utilization_chefs, "\n")
-cat("Ocio de los chefs:", idle_chefs, "\n")
-cat("Utilización del horno:", utilization_oven, "\n")
-cat("Ocio del horno:", idle_oven, "\n")
+  idle_chefs <- 1 - utilization_chefs
+  idle_oven <- 1 - utilization_oven
+
+  list(
+    lambda = lambda,
+    utilization_chefs = utilization_chefs,
+    utilization_oven = utilization_oven,
+    idle_chefs = idle_chefs,
+    idle_oven = idle_oven
+  )
+
+}
 ```
+
+## Cálculamos las métricas para cada arrival rate
+
+```{r}
+# calculate metrics for each arrival rate
+metrics <- lapply(arrival_rates$lambda, calculate_metrics)
+
+# # convert to data frame for plotting
+# metrics_df <- do.call(rbind, metrics)
+# metrics_df$period <- arrival_rates$period
+# metrics_df$start_hour <- arrival_rates$start_hour
+# no need to add lambda again, it's already in the data frame metrics
+
+metrics_df <- data.frame(
+  period = arrival_rates$period,
+  start_hour = arrival_rates$start_hour,
+  lambda = arrival_rates$lambda,
+  utilization_chefs = sapply(metrics, `[[`, "utilization_chefs"),
+  utilization_oven = sapply(metrics, `[[`, "utilization_oven"),
+  idle_chefs = sapply(metrics, `[[`, "idle_chefs"),
+  idle_oven = sapply(metrics, `[[`, "idle_oven")
+)
+```
+
+# visualizamos las métricas
+
+```{r}
+# Plot utilization metrics
+ggplot(metrics_df, aes(x = period)) +
+  geom_bar(aes(y = utilization_chefs, fill = "Chefs"), 
+           stat = "identity", position = "dodge", alpha = 0.7) +
+  geom_bar(aes(y = utilization_oven, fill = "Oven"), 
+           stat = "identity", position = "dodge", alpha = 0.7) +
+  labs(title = "System Utilization Throughout the Day",
+       x = "Time Period",
+       y = "Utilization Rate") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_manual(values = c("Chefs" = "blue", "Oven" = "red"))
+
+# store the plot as image
+ggsave("utilization_metrics.png", width = 10, height = 6, dpi = 300)
+
+# Plot idle time metrics
+ggplot(metrics_df, aes(x = period)) +
+  geom_bar(aes(y = idle_chefs, fill = "Chefs"), 
+           stat = "identity", position = "dodge", alpha = 0.7) +
+  geom_bar(aes(y = idle_oven, fill = "Oven"), 
+           stat = "identity", position = "dodge", alpha = 0.7) +
+  labs(title = "Idle Time Throughout the Day",
+       x = "Time Period",
+       y = "Idle Rate") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_manual(values = c("Chefs" = "blue", "Oven" = "red"))
+
+# store the plots as images
+ggsave("idle_metrics.png", width = 10, height = 6, dpi = 300)
+
+# Print the metrics dataframe for additional insight
+print(metrics_df)
+```
+
+## Analisis de los resultados iniciales
+Notamos que al tener 2 chefs trabajando simultáneamente, es suficiente para los segmentos del día de 10pm a 4am, pero entre 2pm a 10pm no son suficientes.
+el horno nunca sobrepasa el 50% de utilización, por lo que no es un cuello de botella.
+Los datos teoricos encontrados presentan una venta de 200 pizzas por día, al estudiar nuestro sistema inical encontramos que es imposible llegar a esa cantidad con 2 chefs, para optimizar ganancias y costos se presentaran modelos alternativos para mejorar el sistema.
