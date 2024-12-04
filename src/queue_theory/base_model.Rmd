@@ -83,8 +83,7 @@ set.seed(506)
 
 ## Definición de Parámetros
 ```{r}
-lambda <- 20  # Llegadas de pedidos por hora, dato hipotético
-# TODO: ver cual dato real usar o como obtenerlo
+lambda <- 20  # Llegadas de pedidos por hora
 
 arrival_rates <- data.frame(
   period = c(
@@ -110,8 +109,6 @@ num_chefs <- 2  # cantidad de chefs
 system_capacity <- 50  # antidad máxima de pedidos en el sistema
 
 total_hours <- 16  # total de horas por día
-# TODO: verificar cuantos chefs trabajan en el turno de 16 horas
-# suponemos 4 chefs (2 turnos de 8 horas)
 ```
 
 ## Cálculo del ocio y utilización de los chefs y del horno
