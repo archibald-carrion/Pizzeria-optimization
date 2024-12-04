@@ -1,0 +1,108 @@
+```{r}
+# Check if required packages are installed and install if not
+if (!require("queueing")) {
+  install.packages("queueing")
+}
+
+if (!require("ggplot2")) {
+  install.packages("ggplot2")
+}
+
+if (!require("dplyr")) {
+  install.packages("dplyr")
+}
+
+# Load required libraries
+library(queueing)
+library(ggplot2)
+library(dplyr)
+
+# Set seed for reproducibility
+set.seed(506)
+```
+
+
+```{r}
+# nuevo arribal rates con num_chefs variables
+arrival_rates <- data.frame(
+  period = c(
+    "12-2 PM",
+    "2-4 PM",
+    "4-6 PM",
+    "6-8 PM",
+    "8-10 PM",
+    "10 PM-12 AM",
+    "12-2 AM",
+    "2-4 AM"
+  ),
+  start_hour = c(0, 2, 4, 6, 8, 10, 12, 14),
+  lambda = c(10, 25, 35, 50, 40, 20, 15, 5),
+  num_chefs = c(1, 4, 4, 4, 4, 2, 2, 1)
+)
+
+mu_chef <- 10   # pizzas per hour for each chef
+mu_oven <- 96   # pizzas per hour for the oven
+system_capacity <- 50
+```
+
+
+```{r}	
+calculate_metrics <- function(lambda, num_chefs) {
+  utilization_chefs <- lambda / (num_chefs * mu_chef)
+  utilization_oven <- lambda / mu_oven
+
+  idle_chefs <- 1 - utilization_chefs
+  idle_oven <- 1 - utilization_oven
+
+  list(
+    lambda = lambda,
+    num_chefs = num_chefs,
+    utilization_chefs = utilization_chefs,
+    utilization_oven = utilization_oven,
+    idle_chefs = idle_chefs,
+    idle_oven = idle_oven
+  )
+}
+```
+
+```{r}
+metrics <- mapply(calculate_metrics,
+                  arrival_rates$lambda,
+                  arrival_rates$num_chefs,
+                  SIMPLIFY = FALSE)
+
+metrics_df <- data.frame(
+  period = arrival_rates$period,
+  start_hour = arrival_rates$start_hour,
+  lambda = arrival_rates$lambda,
+  num_chefs = arrival_rates$num_chefs,
+  utilization_chefs = sapply(metrics, `[[`, "utilization_chefs"),
+  utilization_oven = sapply(metrics, `[[`, "utilization_oven"),
+  idle_chefs = sapply(metrics, `[[`, "idle_chefs"),
+  idle_oven = sapply(metrics, `[[`, "idle_oven")
+)
+
+print(metrics_df)
+```
+
+```{r}
+# Utilization plot with chef count
+ggplot(metrics_df, aes(x = period, group = 1)) +
+  geom_bar(aes(y = utilization_chefs, fill = "Chefs"), 
+           stat = "identity", position = "dodge", alpha = 0.7) +
+  geom_bar(aes(y = utilization_oven, fill = "Oven"), 
+           stat = "identity", position = "dodge", alpha = 0.7) +
+  geom_line(aes(y = num_chefs, color = "Num Chefs"), 
+            stat = "identity", size = 1.5) +
+  scale_y_continuous(sec.axis = sec_axis(~., name = "Number of Chefs")) +
+  labs(title = "System Utilization and Chef Staffing",
+       x = "Time Period",
+       y = "Utilization Rate") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_manual(values = c("Chefs" = "blue", "Oven" = "red")) +
+  scale_color_manual(values = c("Num Chefs" = "green"))
+
+# store the plot as image
+ggsave("optimized_utilization_plot.png")
+```
