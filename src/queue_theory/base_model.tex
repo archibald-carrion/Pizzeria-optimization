@@ -106,7 +106,7 @@
 
 \title{Base model for queue theory}
 \author{Optimizados - Markov's Pizza}
-\date{2024-12-04}
+\date{2024-12-05}
 
 \begin{document}
 \maketitle
@@ -310,8 +310,7 @@ Parámetros}\label{definiciuxf3n-de-paruxe1metros}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{lambda }\OtherTok{\textless{}{-}} \DecValTok{20}  \CommentTok{\# Llegadas de pedidos por hora, dato hipotético}
-\CommentTok{\# }\AlertTok{TODO}\CommentTok{: ver cual dato real usar o como obtenerlo}
+\NormalTok{lambda }\OtherTok{\textless{}{-}} \DecValTok{20}  \CommentTok{\# Llegadas de pedidos por hora}
 
 \NormalTok{arrival\_rates }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
   \AttributeTok{period =} \FunctionTok{c}\NormalTok{(}
@@ -325,8 +324,9 @@ Parámetros}\label{definiciuxf3n-de-paruxe1metros}
     \StringTok{"2{-}4 AM"}
 \NormalTok{  ),}
   \AttributeTok{start\_hour =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{12}\NormalTok{, }\DecValTok{14}\NormalTok{),}
-  \AttributeTok{lambda =} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{25}\NormalTok{, }\DecValTok{35}\NormalTok{, }\DecValTok{50}\NormalTok{, }\DecValTok{40}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{15}\NormalTok{, }\DecValTok{5}\NormalTok{)}
-  \CommentTok{\# pizzas perhours, mas comsumo en la noche}
+  \AttributeTok{lambda =} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{15}\NormalTok{, }\DecValTok{25}\NormalTok{, }\DecValTok{45}\NormalTok{, }\DecValTok{30}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{5}\NormalTok{)}
+  \CommentTok{\# as found in the simulation previously realized,}
+  \CommentTok{\# we have an average of 140 pizzas per day}
 \NormalTok{)}
 
 \NormalTok{mu\_chef }\OtherTok{\textless{}{-}} \DecValTok{10}   \CommentTok{\# pizzas per hour for each chef}
@@ -337,8 +337,6 @@ Parámetros}\label{definiciuxf3n-de-paruxe1metros}
 \NormalTok{system\_capacity }\OtherTok{\textless{}{-}} \DecValTok{50}  \CommentTok{\# antidad máxima de pedidos en el sistema}
 
 \NormalTok{total\_hours }\OtherTok{\textless{}{-}} \DecValTok{16}  \CommentTok{\# total de horas por día}
-\CommentTok{\# }\AlertTok{TODO}\CommentTok{: verificar cuantos chefs trabajan en el turno de 16 horas}
-\CommentTok{\# suponemos 4 chefs (2 turnos de 8 horas)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -418,7 +416,7 @@ rate}\label{cuxe1lculamos-las-muxe9tricas-para-cada-arrival-rate}
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# store the plot as image}
-\FunctionTok{ggsave}\NormalTok{(}\StringTok{"utilization\_metrics.png"}\NormalTok{, }\AttributeTok{width =} \DecValTok{10}\NormalTok{, }\AttributeTok{height =} \DecValTok{6}\NormalTok{, }\AttributeTok{dpi =} \DecValTok{300}\NormalTok{)}
+\FunctionTok{ggsave}\NormalTok{(}\StringTok{"base\_model\_utilization\_metrics.png"}\NormalTok{, }\AttributeTok{width =} \DecValTok{10}\NormalTok{, }\AttributeTok{height =} \DecValTok{6}\NormalTok{, }\AttributeTok{dpi =} \DecValTok{300}\NormalTok{)}
 
 \CommentTok{\# Plot idle time metrics}
 \FunctionTok{ggplot}\NormalTok{(metrics\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ period)) }\SpecialCharTok{+}
@@ -440,7 +438,7 @@ rate}\label{cuxe1lculamos-las-muxe9tricas-para-cada-arrival-rate}
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# store the plots as images}
-\FunctionTok{ggsave}\NormalTok{(}\StringTok{"idle\_metrics.png"}\NormalTok{, }\AttributeTok{width =} \DecValTok{10}\NormalTok{, }\AttributeTok{height =} \DecValTok{6}\NormalTok{, }\AttributeTok{dpi =} \DecValTok{300}\NormalTok{)}
+\FunctionTok{ggsave}\NormalTok{(}\StringTok{"base\_model\_idle\_metrics.png"}\NormalTok{, }\AttributeTok{width =} \DecValTok{10}\NormalTok{, }\AttributeTok{height =} \DecValTok{6}\NormalTok{, }\AttributeTok{dpi =} \DecValTok{300}\NormalTok{)}
 
 \CommentTok{\# Print the metrics dataframe for additional insight}
 \FunctionTok{print}\NormalTok{(metrics\_df)}
@@ -450,21 +448,21 @@ rate}\label{cuxe1lculamos-las-muxe9tricas-para-cada-arrival-rate}
 \begin{verbatim}
 ##        period start_hour lambda utilization_chefs utilization_oven idle_chefs
 ## 1     12-2 PM          0     10              0.50       0.10416667       0.50
-## 2      2-4 PM          2     25              1.25       0.26041667      -0.25
-## 3      4-6 PM          4     35              1.75       0.36458333      -0.75
-## 4      6-8 PM          6     50              2.50       0.52083333      -1.50
-## 5     8-10 PM          8     40              2.00       0.41666667      -1.00
+## 2      2-4 PM          2     15              0.75       0.15625000       0.25
+## 3      4-6 PM          4     25              1.25       0.26041667      -0.25
+## 4      6-8 PM          6     45              2.25       0.46875000      -1.25
+## 5     8-10 PM          8     30              1.50       0.31250000      -0.50
 ## 6 10 PM-12 AM         10     20              1.00       0.20833333       0.00
-## 7     12-2 AM         12     15              0.75       0.15625000       0.25
+## 7     12-2 AM         12     10              0.50       0.10416667       0.50
 ## 8      2-4 AM         14      5              0.25       0.05208333       0.75
 ##   idle_oven
 ## 1 0.8958333
-## 2 0.7395833
-## 3 0.6354167
-## 4 0.4791667
-## 5 0.5833333
+## 2 0.8437500
+## 3 0.7395833
+## 4 0.5312500
+## 5 0.6875000
 ## 6 0.7916667
-## 7 0.8437500
+## 7 0.8958333
 ## 8 0.9479167
 \end{verbatim}
 

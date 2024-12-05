@@ -36,7 +36,7 @@ arrival_rates <- data.frame(
     "2-4 AM"
   ),
   start_hour = c(0, 2, 4, 6, 8, 10, 12, 14),
-  lambda = c(10, 25, 35, 50, 40, 20, 15, 5),
+  lambda = c(10, 15, 25, 45, 30, 20, 10, 5),
   num_chefs = c(1, 4, 4, 4, 4, 2, 2, 1)
 )
 
@@ -104,5 +104,5 @@ ggplot(metrics_df, aes(x = period, group = 1)) +
   scale_color_manual(values = c("Num Chefs" = "green"))
 
 # store the plot as image
-ggsave("optimized_utilization_plot.png")
+ggsave("optimized_model_utilization_metrics.png")
 ```

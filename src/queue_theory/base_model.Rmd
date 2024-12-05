@@ -97,8 +97,9 @@ arrival_rates <- data.frame(
     "2-4 AM"
   ),
   start_hour = c(0, 2, 4, 6, 8, 10, 12, 14),
-  lambda = c(10, 25, 35, 50, 40, 20, 15, 5)
-  # pizzas perhours, mas comsumo en la noche
+  lambda = c(10, 15, 25, 45, 30, 20, 10, 5)
+  # as found in the simulation previously realized,
+  # we have an average of 140 pizzas per day
 )
 
 mu_chef <- 10   # pizzas per hour for each chef
@@ -175,7 +176,7 @@ ggplot(metrics_df, aes(x = period)) +
   scale_fill_manual(values = c("Chefs" = "blue", "Oven" = "red"))
 
 # store the plot as image
-ggsave("utilization_metrics.png", width = 10, height = 6, dpi = 300)
+ggsave("base_model_utilization_metrics.png", width = 10, height = 6, dpi = 300)
 
 # Plot idle time metrics
 ggplot(metrics_df, aes(x = period)) +
@@ -191,7 +192,7 @@ ggplot(metrics_df, aes(x = period)) +
   scale_fill_manual(values = c("Chefs" = "blue", "Oven" = "red"))
 
 # store the plots as images
-ggsave("idle_metrics.png", width = 10, height = 6, dpi = 300)
+ggsave("base_model_idle_metrics.png", width = 10, height = 6, dpi = 300)
 
 # Print the metrics dataframe for additional insight
 print(metrics_df)
