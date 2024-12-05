@@ -86,7 +86,7 @@ print(metrics_df)
 ```
 
 ```{r}
-# Utilization plot with chef count
+# Utilization plot with chef count and pizzas sold
 ggplot(metrics_df, aes(x = period, group = 1)) +
   geom_bar(aes(y = utilization_chefs, fill = "Chefs"), 
            stat = "identity", position = "dodge", alpha = 0.7) +
@@ -94,15 +94,21 @@ ggplot(metrics_df, aes(x = period, group = 1)) +
            stat = "identity", position = "dodge", alpha = 0.7) +
   geom_line(aes(y = num_chefs, color = "Num Chefs"), 
             stat = "identity", size = 1.5) +
-  scale_y_continuous(sec.axis = sec_axis(~., name = "Number of Chefs")) +
-  labs(title = "System Utilization and Chef Staffing",
-       x = "Time Period",
-       y = "Utilization Rate") +
+  geom_line(aes(y = lambda / max(lambda), color = "Pizzas Sold"), 
+            stat = "identity", size = 1.5, linetype = "dashed") +
+  scale_y_continuous(
+    sec.axis = sec_axis(~., name = "Number of Chefs"),
+    name = "Utilization Rate"
+  ) +
+  labs(title = "System Utilization, Chef Staffing, and Pizzas Sold",
+       x = "Time Period") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   scale_fill_manual(values = c("Chefs" = "blue", "Oven" = "red")) +
-  scale_color_manual(values = c("Num Chefs" = "green"))
+  scale_color_manual(values = c("Num Chefs" = "green", "Pizzas Sold" = "purple")) +
+  annotate("text", x = metrics_df$period, y = metrics_df$lambda / max(metrics_df$lambda), 
+           label = metrics_df$lambda, vjust = -1, size = 3)
 
 # store the plot as image
-ggsave("optimized_model_utilization_metrics.png")
+ggsave("optimized_model_utilization_metrics_with_pizzas.png")
 ```

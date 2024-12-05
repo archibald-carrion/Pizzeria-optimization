@@ -162,40 +162,53 @@ metrics_df <- data.frame(
 # visualizamos las métricas
 
 ```{r}
-# Plot utilization metrics
-ggplot(metrics_df, aes(x = period)) +
+# Utilization plot with pizzas sold
+ggplot(metrics_df, aes(x = period, group = 1)) +
   geom_bar(aes(y = utilization_chefs, fill = "Chefs"), 
            stat = "identity", position = "dodge", alpha = 0.7) +
   geom_bar(aes(y = utilization_oven, fill = "Oven"), 
            stat = "identity", position = "dodge", alpha = 0.7) +
-  labs(title = "System Utilization Throughout the Day",
+  geom_line(aes(y = lambda / max(lambda), color = "Pizzas Sold"), 
+            stat = "identity", size = 1.5, linetype = "dashed") +
+  labs(title = "System Utilization and Pizzas Sold Throughout the Day",
        x = "Time Period",
        y = "Utilization Rate") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  scale_fill_manual(values = c("Chefs" = "blue", "Oven" = "red"))
+  scale_y_continuous(
+    sec.axis = sec_axis(~.*max(metrics_df$lambda), name = "Pizzas Sold")
+  ) +
+  scale_fill_manual(values = c("Chefs" = "blue", "Oven" = "red")) +
+  scale_color_manual(values = c("Pizzas Sold" = "purple")) +
+  annotate("text", x = metrics_df$period, y = metrics_df$lambda / max(metrics_df$lambda), 
+           label = metrics_df$lambda, vjust = -1, size = 3)
 
 # store the plot as image
-ggsave("base_model_utilization_metrics.png", width = 10, height = 6, dpi = 300)
+ggsave("base_model_utilization_metrics_with_pizzas.png", width = 10, height = 6, dpi = 300)
 
-# Plot idle time metrics
-ggplot(metrics_df, aes(x = period)) +
+# Idle time plot with pizzas sold
+ggplot(metrics_df, aes(x = period, group = 1)) +
   geom_bar(aes(y = idle_chefs, fill = "Chefs"), 
            stat = "identity", position = "dodge", alpha = 0.7) +
   geom_bar(aes(y = idle_oven, fill = "Oven"), 
            stat = "identity", position = "dodge", alpha = 0.7) +
-  labs(title = "Idle Time Throughout the Day",
+  geom_line(aes(y = lambda / max(lambda), color = "Pizzas Sold"), 
+            stat = "identity", size = 1.5, linetype = "dashed") +
+  labs(title = "Idle Time and Pizzas Sold Throughout the Day",
        x = "Time Period",
        y = "Idle Rate") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  scale_fill_manual(values = c("Chefs" = "blue", "Oven" = "red"))
+  scale_y_continuous(
+    sec.axis = sec_axis(~.*max(metrics_df$lambda), name = "Pizzas Sold")
+  ) +
+  scale_fill_manual(values = c("Chefs" = "blue", "Oven" = "red")) +
+  scale_color_manual(values = c("Pizzas Sold" = "purple")) +
+  annotate("text", x = metrics_df$period, y = metrics_df$lambda / max(metrics_df$lambda), 
+           label = metrics_df$lambda, vjust = -1, size = 3)
 
-# store the plots as images
-ggsave("base_model_idle_metrics.png", width = 10, height = 6, dpi = 300)
-
-# Print the metrics dataframe for additional insight
-print(metrics_df)
+# store the plot as image
+ggsave("base_model_idle_metrics_with_pizzas.png", width = 10, height = 6, dpi = 300)
 ```
 
 ## Analisis de los resultados iniciales
