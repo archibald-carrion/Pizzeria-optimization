@@ -162,8 +162,22 @@ metrics_df <- data.frame(
 # visualizamos las métricas
 
 ```{r}
-# Utilization plot with pizzas sold
-ggplot(metrics_df, aes(x = period, group = 1)) +
+# Calculate metrics and create metrics dataframe (same as before)
+metrics <- lapply(arrival_rates$lambda, calculate_metrics)
+
+metrics_df <- data.frame(
+  period = arrival_rates$period,
+  start_hour = arrival_rates$start_hour,
+  lambda = arrival_rates$lambda,
+  utilization_chefs = sapply(metrics, `[[`, "utilization_chefs"),
+  utilization_oven = sapply(metrics, `[[`, "utilization_oven"),
+  idle_chefs = sapply(metrics, `[[`, "idle_chefs"),
+  idle_oven = sapply(metrics, `[[`, "idle_oven")
+)
+
+# Plotting functions with ordered x-axis
+# Utilization plot
+ggplot(metrics_df, aes(x = factor(period, levels = period), group = 1)) +
   geom_bar(aes(y = utilization_chefs, fill = "Chefs"), 
            stat = "identity", position = "dodge", alpha = 0.7) +
   geom_bar(aes(y = utilization_oven, fill = "Oven"), 
@@ -184,10 +198,10 @@ ggplot(metrics_df, aes(x = period, group = 1)) +
            label = metrics_df$lambda, vjust = -1, size = 3)
 
 # store the plot as image
-ggsave("base_model_utilization_metrics_with_pizzas.png", width = 10, height = 6, dpi = 300)
+ggsave("base_model_utilization_plot.png")
 
-# Idle time plot with pizzas sold
-ggplot(metrics_df, aes(x = period, group = 1)) +
+# Idle time plot (with similar modifications)
+ggplot(metrics_df, aes(x = factor(period, levels = period), group = 1)) +
   geom_bar(aes(y = idle_chefs, fill = "Chefs"), 
            stat = "identity", position = "dodge", alpha = 0.7) +
   geom_bar(aes(y = idle_oven, fill = "Oven"), 
@@ -206,9 +220,8 @@ ggplot(metrics_df, aes(x = period, group = 1)) +
   scale_color_manual(values = c("Pizzas Sold" = "purple")) +
   annotate("text", x = metrics_df$period, y = metrics_df$lambda / max(metrics_df$lambda), 
            label = metrics_df$lambda, vjust = -1, size = 3)
-
 # store the plot as image
-ggsave("base_model_idle_metrics_with_pizzas.png", width = 10, height = 6, dpi = 300)
+ggsave("base_model_idle_plot.png")
 ```
 
 ## Analisis de los resultados iniciales
