@@ -86,6 +86,9 @@ print(metrics_df)
 ```
 
 ```{r}
+# Order the periods based on start_hour
+metrics_df$period <- factor(metrics_df$period, levels = metrics_df$period[order(metrics_df$start_hour)])
+
 # Utilization plot with chef count and pizzas sold
 ggplot(metrics_df, aes(x = period, group = 1)) +
   geom_bar(aes(y = utilization_chefs, fill = "Chefs"), 
