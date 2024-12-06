@@ -21,9 +21,13 @@ GAS:
 (6914 colones/día / 140 pizza/dia) = 49.38 colones/pizza
 
 SALARIO:
-Salario mínimo para pizzeros: ¢13.448,72 por jornada
+¢13.448,72 jornada
+¢6724.36 por medio tiempo
+¢3362.18 por cuarto de tiempo
+Tenemos 3 jornadas enteras, 1 medio tiempo y un cuarto de tiempo al día
+13448.72*3 + 6724.36*2 + 3362.18*1 = 57157.06 en salarios al día
 140 pizza/día
-13448,72/140 = 96.06 salario/pizza
+57157.06/140 = 408.26 salario/pizza
 
 ALQUILER:
 ₡1 012 782 mensuales
