@@ -1,5 +1,10 @@
-# Pizzeria-optimization
-Pizzeria
+# Pizzeria optimization
+
+![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)
+![Jupyter Notebook](https://img.shields.io/badge/jupyter%20notebook-6.0%2B-orange.svg)
+![Pizzas](https://img.shields.io/badge/pizza-🍕-red.svg)
+
+> 🍕 This repository contains an optimization project focused on maximizing the efficiency and profitability of a pizzeria. Using operations research techniques, mathematical modeling, and Python programming, it tackles real-world constraints like ingredient availability, production capacity, and business goals. Explore how optimization models can be applied to the food industry to drive smarter decisions and better outcomes.
 
 ## Models that will be used to optimize the pizzeria
 ### Optimization Techniques
