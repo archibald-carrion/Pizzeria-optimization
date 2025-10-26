@@ -6,6 +6,11 @@
 
 > 🍕 This repository contains an optimization project focused on maximizing the efficiency and profitability of a pizzeria. Using operations research techniques, mathematical modeling, and Python programming, it tackles real-world constraints like ingredient availability, production capacity, and business goals. Explore how optimization models can be applied to the food industry to drive smarter decisions and better outcomes.
 
+
+<p align="center">
+    <img src="doc/pizza_logo.svg" alt="Coolest pizzeria Logo" width="400"/>
+</p>
+
 ## Models that will be used to optimize the pizzeria
 ### Optimization Techniques
 To maximize pizzeria profits, consider these optimization techniques:
