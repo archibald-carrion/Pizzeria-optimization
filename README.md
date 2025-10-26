@@ -8,7 +8,7 @@
 
 
 <p align="center">
-    <img src="doc/pizza_logo.svg" alt="Coolest pizzeria Logo" width="400"/>
+    <img src="doc/pizza_logo.png" alt="Coolest pizzeria Logo" width="500"/>
 </p>
 
 ## Models that will be used to optimize the pizzeria
